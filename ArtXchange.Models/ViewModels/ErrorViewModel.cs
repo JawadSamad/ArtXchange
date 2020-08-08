@@ -1,6 +1,6 @@
 using System;
 
-namespace ArtXchange.Models
+namespace ArtXchange.Models.ViewModels
 {
     public class ErrorViewModel
     {

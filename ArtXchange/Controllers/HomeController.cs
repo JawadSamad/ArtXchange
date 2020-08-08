@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ArtXchange.Models;
+using ArtXchange.Models.ViewModels;
 
 namespace ArtXchange.Controllers
 {
