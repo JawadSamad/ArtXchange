@@ -13,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ArtXchange.DataAccess.Data;
+using ArtXchange.DataAccess.Repository.IRepository;
+using ArtXchange.DataAccess.Repository;
 
 namespace ArtXchange
 {
@@ -34,6 +36,7 @@ namespace ArtXchange
             //options => options.SignIn.RequireConfirmedAccount = true
             services.AddDefaultIdentity<IdentityUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
         }
