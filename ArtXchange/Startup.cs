@@ -15,6 +15,8 @@ using Microsoft.Extensions.Hosting;
 using ArtXchange.DataAccess.Data;
 using ArtXchange.DataAccess.Repository.IRepository;
 using ArtXchange.DataAccess.Repository;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using ArtXchange.Utility;
 
 namespace ArtXchange
 {
@@ -34,8 +36,9 @@ namespace ArtXchange
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             //options => options.SignIn.RequireConfirmedAccount = true
-            services.AddDefaultIdentity<IdentityUser>()
+            services.AddIdentity<IdentityUser, IdentityRole>().AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddSingleton<IEmailSender, EmailSender>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();

@@ -10,6 +10,7 @@ namespace ArtXchange.DataAccess.Repository.IRepository
         ICategoryRepository Category { get; }
         IProductRepository Product { get; }
         ISP_Call SP_Call { get; }
+        IApplicationUserRepository ApplicationUser { get; }
 
         void Save();
     }
