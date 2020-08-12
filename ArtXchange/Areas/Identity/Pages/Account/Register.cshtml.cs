@@ -57,7 +57,7 @@ namespace ArtXchange.Areas.Identity.Pages.Account
         {
             [Required]
             [EmailAddress]
-            [Display(Name = "Name " + "LastName")]
+            [Display(Name = "Email")]
             public string Email { get; set; }
 
             [Required]
@@ -104,7 +104,7 @@ namespace ArtXchange.Areas.Identity.Pages.Account
                 var user = new ApplicationUser
                 {
                     Role = Input.Role,
-                    UserName = Input.Name + " " + Input.LastName,
+                    UserName = Input.Email,
                     Email = Input.Email,
                     Name = Input.Name,
                     LastName = Input.LastName,
