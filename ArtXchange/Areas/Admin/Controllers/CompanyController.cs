@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ArtXchange.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = SD.Role_Admin + "," + SD.Role_Employee)]
+    [Authorize(Roles = SD.Role_Admin)]
     public class CompanyController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
