@@ -92,7 +92,7 @@ namespace ArtXchange.Areas.Identity.Pages.Account
                     Text = i.Name,
                     Value = i.Id.ToString()
                 }),
-                RoleList = _roleManager.Roles.Select(x => x.Name).Select(i => new SelectListItem
+                RoleList = _roleManager.Roles.Where(u => u.Name != SD.Role_User_Student).Select(x => x.Name).Select(i => new SelectListItem
                 {
                     Text = i,
                     Value = i
@@ -138,14 +138,6 @@ namespace ArtXchange.Areas.Identity.Pages.Account
                         }
                         await _userManager.AddToRoleAsync(user, user.Role);
                     }
-                    //else
-                    //{
-                    //    if (user.CompanyId > 0)
-                    //    {
-                    //        await _userManager.AddToRoleAsync(user, SD.Role_Employee);
-                    //    }
-                    //    await _userManager.AddToRoleAsync(user, user.Role);
-                    //}
 
                     //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     //code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));

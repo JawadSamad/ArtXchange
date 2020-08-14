@@ -12,6 +12,9 @@ namespace ArtXchange.DataAccess.Repository.IRepository
         IProductRepository Product { get; }
         ISP_Call SP_Call { get; }
         IApplicationUserRepository ApplicationUser { get; }
+        IShoppingCartRepository ShoppingCart { get; }
+        IOrderHeaderRepository OrderHeader { get; }
+        IOrderDetailsRepository OrderDetails { get; }
 
         void Save();
     }
