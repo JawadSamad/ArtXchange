@@ -77,15 +77,21 @@ namespace ArtXchange.Areas.Identity.Pages.Account
             public string City { get; set; }
             public string Class { get; set; }
             public string PhoneNumber { get; set; }
+            public int? CompanyId { get; set; }
             public string Role { get; set; }
             public IEnumerable<SelectListItem> RoleList { get; set; }
+            public IEnumerable<SelectListItem> CompanyList { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
-            Input = new InputModel
+            Input = new InputModel()
             {
+                CompanyList = _unitOfWork.Company.GetAll().Select(i => new SelectListItem {
+                    Text = i.Name,
+                    Value = i.Id.ToString()
+                }),
                 RoleList = _roleManager.Roles.Select(x => x.Name).Select(i => new SelectListItem
                 {
                     Text = i,
@@ -101,10 +107,11 @@ namespace ArtXchange.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser
+                var user = new ApplicationUser()
                 {
                     Role = Input.Role,
                     UserName = Input.Email,
+                    CompanyId = Input.CompanyId,
                     Email = Input.Email,
                     Name = Input.Name,
                     LastName = Input.LastName,
@@ -113,31 +120,33 @@ namespace ArtXchange.Areas.Identity.Pages.Account
                     PhoneNumber = Input.PhoneNumber
                 };
 
-
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    //Assigning roles
-                    if(!await _roleManager.RoleExistsAsync(SD.Role_Admin))
-                    {
-                        await _roleManager.CreateAsync(new IdentityRole(SD.Role_Admin));
-                    }
-                    if (!await _roleManager.RoleExistsAsync(SD.Roler_Employee))
-                    {
-                        await _roleManager.CreateAsync(new IdentityRole(SD.Roler_Employee));
-                    }
-                    if (!await _roleManager.RoleExistsAsync(SD.Role_User_Student))
-                    {
-                        await _roleManager.CreateAsync(new IdentityRole(SD.Role_User_Student));
-                    }
 
-                    //Always assigning users as a student, which the admin can change afterworths
-                    if (user.Role ==null)
+                    if (user.Role == null)
                     {
                         await _userManager.AddToRoleAsync(user, SD.Role_User_Student);
                     }
+                    else
+                    {
+                        if (user.CompanyId > 0)
+                        {
+                            await _userManager.AddToRoleAsync(user, SD.Role_Employee);
+                        }
+                        await _userManager.AddToRoleAsync(user, user.Role);
+                    }
+                    //else
+                    //{
+                    //    if (user.CompanyId > 0)
+                    //    {
+                    //        await _userManager.AddToRoleAsync(user, SD.Role_Employee);
+                    //    }
+                    //    await _userManager.AddToRoleAsync(user, user.Role);
+                    //}
+
                     //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     //code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     //var callbackUrl = Url.Page(

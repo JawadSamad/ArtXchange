@@ -13,6 +13,8 @@
     <Compile Remove="Migrations\20200812125351_AddUsersPropertiesToDb.Designer.cs" />
     <Compile Remove="Migrations\20200812125727_AddUserPropertiesToDb-IgnoreChanges.cs" />
     <Compile Remove="Migrations\20200812125727_AddUserPropertiesToDb-IgnoreChanges.Designer.cs" />
+    <Compile Remove="Migrations\20200814012607_AddCompanyIdToUser.cs" />
+    <Compile Remove="Migrations\20200814012607_AddCompanyIdToUser.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -5,12 +5,15 @@ using System.Threading.Tasks;
 using ArtXchange.DataAccess.Data;
 using ArtXchange.DataAccess.Repository.IRepository;
 using ArtXchange.Models;
+using ArtXchange.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace ArtXchange.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = SD.Role_Admin + "," + SD.Role_Employee)]
     public class UserController : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -18,7 +21,6 @@ namespace ArtXchange.Areas.Admin.Controllers
         public UserController(ApplicationDbContext db)
         {
             _db = db;
-
         }
 
         public IActionResult Index()
@@ -26,27 +28,29 @@ namespace ArtXchange.Areas.Admin.Controllers
             return View();
         }
 
-        #region API Calls
+
+
+        #region API CALLS
 
         [HttpGet]
         public IActionResult GetAll()
         {
-            var userList = _db.ApplicationUsers.ToList();
+            var userList = _db.ApplicationUsers.Include(u => u.Company).ToList();
             var userRole = _db.UserRoles.ToList();
             var roles = _db.Roles.ToList();
             foreach (var user in userList)
             {
                 var roleId = userRole.FirstOrDefault(u => u.UserId == user.Id).RoleId;
                 user.Role = roles.FirstOrDefault(u => u.Id == roleId).Name;
-                if (user.Name == null || user.LastName == null || user.Email == null || user.PhoneNumber == null || user.Class == null)
+                if (user.Company == null)
                 {
-                    user.Name = "";
-                    user.LastName = "";
-                    user.Email = "";
-                    user.PhoneNumber = "";
-                    user.Class = "";
+                    user.Company = new Company()
+                    {
+                        Name = ""
+                    };
                 }
             }
+
             return Json(new { data = userList });
         }
 

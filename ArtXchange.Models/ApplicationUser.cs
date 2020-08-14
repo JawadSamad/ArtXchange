@@ -15,6 +15,12 @@ namespace ArtXchange.Models
         public string City { get; set; }
         public string Class { get; set; }
 
+        //"int?" CompanyId can be a nullable field. 
+        public int? CompanyId { get; set; }
+
+        [ForeignKey("CompanyId")]
+        public Company Company { get; set; }
+
         //Not adding the role to the DB
         [NotMapped]
         public string Role { get; set; }
