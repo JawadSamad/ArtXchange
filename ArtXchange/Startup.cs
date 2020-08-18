@@ -17,6 +17,7 @@ using ArtXchange.DataAccess.Repository.IRepository;
 using ArtXchange.DataAccess.Repository;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using ArtXchange.Utility;
+using Stripe;
 
 namespace ArtXchange
 {
@@ -40,6 +41,7 @@ namespace ArtXchange
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddSingleton<IEmailSender, EmailSender>();
             services.Configure<EmailOptions>(Configuration);
+            services.Configure<StripeSettings>(Configuration.GetSection("Stripe"));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
@@ -75,6 +77,7 @@ namespace ArtXchange
             app.UseStaticFiles();
 
             app.UseRouting();
+            StripeConfiguration.ApiKey = Configuration.GetSection("Stripe")["SecretKey"];
             app.UseSession();
 
             app.UseAuthentication();
