@@ -15,6 +15,10 @@
     <Compile Remove="Migrations\20200812125727_AddUserPropertiesToDb-IgnoreChanges.Designer.cs" />
     <Compile Remove="Migrations\20200814012607_AddCompanyIdToUser.cs" />
     <Compile Remove="Migrations\20200814012607_AddCompanyIdToUser.Designer.cs" />
+    <Compile Remove="Migrations\20200818114656_AddValidationOnOrderHeader.cs" />
+    <Compile Remove="Migrations\20200818114656_AddValidationOnOrderHeader.Designer.cs" />
+    <Compile Remove="Migrations\20200818114927_AddValidationOnOrderHeader.cs" />
+    <Compile Remove="Migrations\20200818114927_AddValidationOnOrderHeader.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
