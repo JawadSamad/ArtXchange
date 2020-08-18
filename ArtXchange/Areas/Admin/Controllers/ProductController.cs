@@ -74,7 +74,7 @@ namespace ArtXchange.Areas.Admin.Controllers
 
                     if (productVM.Product.ImageUrl != null)
                     {
-                        //this is an edit and we need to remove old image
+                        //this is an edit and remove old image
                         var imagePath = Path.Combine(webRootPath, productVM.Product.ImageUrl.TrimStart('\\'));
                         if (System.IO.File.Exists(imagePath))
                         {
@@ -152,7 +152,6 @@ namespace ArtXchange.Areas.Admin.Controllers
             _unitOfWork.Product.Remove(objFromDb);
             _unitOfWork.Save();
             return Json(new { success = true, message = "Delete Successful" });
-
         }
 
         #endregion
