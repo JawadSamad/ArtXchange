@@ -33,10 +33,8 @@ namespace ArtXchange.Areas.Admin.Controllers
         {
             OrderVM = new OrderDetailsVM()
             {
-                OrderHeader = _unitOfWork.OrderHeader.GetFirstOrDefault(u => u.Id == id,
-                                                includeProperties: "ApplicationUser"),
+                OrderHeader = _unitOfWork.OrderHeader.GetFirstOrDefault(u => u.Id == id, includeProperties: "ApplicationUser"),
                 OrderDetails = _unitOfWork.OrderDetails.GetAll(o => o.OrderId == id, includeProperties: "Product")
-
             };
             return View(OrderVM);
         }
@@ -173,9 +171,7 @@ namespace ArtXchange.Areas.Admin.Controllers
             }
             else
             {
-                orderHeaderList = _unitOfWork.OrderHeader.GetAll(
-                                        u => u.ApplicationUserId == claim.Value,
-                                        includeProperties: "ApplicationUser");
+                orderHeaderList = _unitOfWork.OrderHeader.GetAll(u => u.ApplicationUserId == claim.Value, includeProperties: "ApplicationUser");
             }
 
             switch (status)
